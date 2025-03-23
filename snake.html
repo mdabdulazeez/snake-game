@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Retro Snake Game</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap">
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #111;
+            font-family: 'Press Start 2P', cursive;
+            color: #33ff33;
+            overflow: hidden;
+        }
+        
+        .game-container {
+            position: relative;
+            padding: 20px;
+            border-radius: 10px;
+            background: #222;
+            box-shadow: 0 0 20px rgba(51, 255, 51, 0.5), inset 0 0 10px rgba(0, 0, 0, 0.5);
+        }
+        
+        .game-header {
+            text-align: center;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 0px #000;
+            letter-spacing: 2px;
+        }
+        
+        canvas {
+            border: 4px solid #33ff33;
+            background-color: #000;
+            image-rendering: pixelated;
+            position: relative;
+        }
+        
+        canvas:before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%);
+            background-size: 100% 4px;
+            pointer-events: none;
+            z-index: 1;
+        }
+        
+        #score {
+            margin-top: 15px;
+            font-size: 16px;
+            color: #33ff33;
+            text-shadow: 2px 2px 0px #000;
+        }
+        
+        #controls {
+            margin-top: 15px;
+            font-size: 12px;
+            color: #aaa;
+            text-align: center;
+        }
+        
+        #game-over {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            visibility: hidden;
+            z-index: 10;
+        }
+        
+        #game-over h2 {
+            color: #ff3333;
+            font-size: 24px;
+            text-shadow: 3px 3px 0px #000;
+            margin-bottom: 20px;
+            animation: blink 1s infinite;
+        }
+        
+        #final-score {
+            color: #33ff33;
+            font-size: 18px;
+            margin-bottom: 20px;
+        }
+        
+        #restart-btn {
+            background-color: #33ff33;
+            color: #000;
+            border: none;
+            padding: 10px 20px;
+            font-family: 'Press Start 2P', cursive;
+            font-size: 14px;
+            cursor: pointer;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes blink {
+            0%, 49% { opacity: 1; }
+            50%, 100% { opacity: 0; }
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        
+        .scanline {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background-color: rgba(51, 255, 51, 0.2);
+            opacity: 0.3;
+            animation: scanline 5s linear infinite;
+            pointer-events: none;
+            z-index: 2;
+        }
+        
+        @keyframes scanline {
+            0% { top: 0; }
+            100% { top: 100%; }
+        }
+        
+        .game-options {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            margin-top: 10px;
+        }
+        
+        .mute-btn {
+            background: transparent;
+            border: none;
+            color: #33ff33;
+            font-family: 'Press Start 2P', cursive;
+            font-size: 12px;
+            cursor: pointer;
+            text-shadow: 1px 1px 0px #000;
+        }
+    </style>
+</head>
+<body>
+    <div class="game-container">
+        <div class="game-header">RETRO SNAKE</div>
+        <div style="position: relative;">
+            <canvas id="gameCanvas" width="400" height="400"></canvas>
+            <div class="scanline"></div>
+            <div id="game-over">
+                <h2>GAME OVER</h2>
+                <div id="final-score">Score: 0</div>
+                <button id="restart-btn">PLAY AGAIN</button>
+            </div>
+        </div>
+        <div class="game-options">
+            <div id="score">Score: 0</div>
+            <button id="mute-btn" class="mute-btn">SOUND: ON</button>
+        </div>
+        <div id="controls">Use Arrow Keys to Move</div>
+    </div>
+
+    <!-- Load modular components -->
+    <script src="js/sound-fx.js"></script>
+    <script src="js/renderer.js"></script>
+    <script src="js/input-handler.js"></script>
+    <script src="js/game.js"></script>
+    
+    <script>
+        // Initialize game when page loads
+        document.addEventListener('DOMContentLoaded', () => {
+            // Create and start the game
+            const game = new Game('gameCanvas');
+        });
+    </script>
+</body>
+</html>
